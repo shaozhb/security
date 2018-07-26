@@ -32,20 +32,21 @@ public class SysUserServiceImpl implements SysUserService,UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username)  {
-        SysUser sysUser=sysUserMapper.findByUserName(username);
-        if(sysUser!=null){
-            List<Permission> permissions=permissionMapper.findByAdminUserId(sysUser.getId());
-            List<GrantedAuthority> grantedAuthorities=new ArrayList<>();
-            for(Permission permission:permissions){
-                if(permission!=null&&permission.getName()!=null){
-                    GrantedAuthority grantedAuthority=new SimpleGrantedAuthority(permission.getName());
+
+        SysUser user = sysUserMapper.findByUserName(username);
+        if (user != null) {
+            List<Permission> permissions = permissionMapper.findByAdminUserId(user.getId());
+            List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
+            for (Permission permission : permissions) {
+                if (permission != null && permission.getName()!=null) {
+
+                    GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission.getName());
                     grantedAuthorities.add(grantedAuthority);
                 }
             }
-            return new User(sysUser.getUsername(),sysUser.getPassword(),grantedAuthorities);
-        }else {
-            throw  new UsernameNotFoundException(username+" is not exit!");
+            return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
+        } else {
+            throw new UsernameNotFoundException("admin: " + username + " do not exist!");
         }
-
     }
 }

@@ -11,36 +11,69 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Iterator;
 
+//@Service
+//public class MyAccessDecisionManager  implements AccessDecisionManager {
+//
+//
+//    @Override
+//    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
+//        if(null==configAttributes||configAttributes.size()<=0){
+//            return;
+//        }
+//        ConfigAttribute configAttribute;
+//        String needRole;
+//        for(Iterator<ConfigAttribute> iter=configAttributes.iterator();iter.hasNext();){
+//            configAttribute=iter.next();
+//            needRole=configAttribute.getAttribute();
+//            for(GrantedAuthority ga:authentication.getAuthorities()){
+//                if(needRole.trim().equals(ga.getAuthority())){
+//                    return;
+//                }
+//            }
+//        }
+//        throw new AccessDeniedException("not right");
+//    }
+//
+//    @Override
+//    public boolean supports(ConfigAttribute configAttribute) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean supports(Class<?> aClass) {
+//        return false;
+//    }
+//}
 @Service
-public class MyAccessDecisionManager  implements AccessDecisionManager {
-
-
+public class MyAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-        if(null==configAttributes||configAttributes.size()<=0){
+
+        if(null== configAttributes || configAttributes.size() <=0) {
             return;
         }
-        ConfigAttribute configAttribute;
+        ConfigAttribute c;
         String needRole;
-        for(Iterator<ConfigAttribute> iter=configAttributes.iterator();iter.hasNext();){
-            configAttribute=iter.next();
-            needRole=configAttribute.getAttribute();
-            for(GrantedAuthority ga:authentication.getAuthorities()){
-                if(needRole.trim().equals(ga.getAuthority())){
+        for(Iterator<ConfigAttribute> iter = configAttributes.iterator(); iter.hasNext(); ) {
+            c = iter.next();
+            needRole = c.getAttribute();
+            for(GrantedAuthority ga : authentication.getAuthorities()) {
+                if(needRole.trim().equals(ga.getAuthority())) {
                     return;
                 }
             }
         }
-        throw new AccessDeniedException("not right");
+        throw new AccessDeniedException("no right");
     }
 
-    @Override
-    public boolean supports(ConfigAttribute configAttribute) {
-        return false;
-    }
+
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return false;
+    public boolean supports(ConfigAttribute attribute) {
+        return true;
+    }
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return true;
     }
 }
