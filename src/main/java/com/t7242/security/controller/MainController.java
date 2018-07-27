@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-
 public class MainController {
+
 
     @RequestMapping("/")
     public String index(Model model){
@@ -21,16 +21,11 @@ public class MainController {
     public  String login(){
         return "login";
     }
-    @RequestMapping("/index")
-    public String getIndex(){
-        return "index";
-    }
 
     @RequestMapping("/admin")
     @ResponseBody
     public String hello(){
         return "hello admin";
     }
-
 
 }

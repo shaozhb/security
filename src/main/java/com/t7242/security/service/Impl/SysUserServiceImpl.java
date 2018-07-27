@@ -38,10 +38,12 @@ public class SysUserServiceImpl implements SysUserService,UserDetailsService {
             List<Permission> permissions = permissionMapper.findByAdminUserId(user.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
             for (Permission permission : permissions) {
+//                System.out.println("(permission++++++++++++++);"+permission.getName());
                 if (permission != null && permission.getName()!=null) {
 
                     GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission.getName());
                     grantedAuthorities.add(grantedAuthority);
+//                    System.out.println(grantedAuthority.getAuthority());
                 }
             }
             return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
